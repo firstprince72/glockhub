@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Catalog Admin · Glockhub Store</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+  <script type="module" src="/admin/admin.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="frame masthead-inner">
+      <div class="brand"><span class="monogram" aria-hidden="true">G</span><strong>Glockhub Store</strong><span class="brand-divider">/</span><span>Admin</span></div>
+      <a href="/">View storefront ↗</a>
+    </div>
+  </header>
+  <main class="frame">
+    <section class="gate" id="auth">
+      <p class="eyebrow">Glockhub Store / STORE OPERATIONS</p>
+      <h1>Catalog admin<span>.</span></h1>
+      <p class="muted" id="auth-hint">Checking your session…</p>
+      <form id="sign-in" hidden>
+        <label id="email-field">Email <input type="email" name="email" autocomplete="username" required></label>
+        <label>Password <input type="password" name="password" autocomplete="current-password" required></label>
+        <button class="primary" id="sign-in-button">Sign in</button>
+      </form>
+      <p class="error" id="auth-error" role="alert" hidden></p>
+    </section>
+
+    <section id="dashboard" hidden>
+      <div class="intro">
+        <div><p class="eyebrow">STORE OPERATIONS / 01</p><h1>Products<span>.</span></h1><p class="muted">Manage the photos, prices and colours customers see in your store.</p></div>
+        <div class="intro-actions"><button id="sign-out" class="quiet">Sign out</button><button id="new-product" class="primary" disabled>＋ Add product</button></div>
+      </div>
+      <section class="inventory" aria-labelledby="inventory-heading">
+        <div class="inventory-head"><div><h2 id="inventory-heading">Product catalog</h2><p id="catalog-count" class="muted" aria-live="polite"></p></div><input id="search" type="search" aria-label="Search products" placeholder="Search names or categories"></div>
+        <p id="notice" class="notice" role="status" hidden></p>
+        <div class="table-wrap" id="table-wrap" hidden>
+          <table><thead><tr><th scope="col">Product</th><th scope="col">Category</th><th scope="col">Price</th><th scope="col">Colours</th><th scope="col" class="action-cell">Actions</th></tr></thead><tbody id="product-list"></tbody></table>
+        </div>
+        <div id="catalog-state" class="catalog-state" role="status">Loading products…</div>
+        <button id="retry" class="quiet retry" hidden>Retry loading products</button>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="editor" aria-labelledby="editor-title">
+    <form id="product-form">
+      <div class="dialog-head"><div><p class="eyebrow">CATALOG / PRODUCT DETAILS</p><h2 id="editor-title">Add product</h2></div><button type="button" class="quiet close" data-close="editor" aria-label="Close editor">×</button></div>
+      <fieldset id="editor-fields">
+        <div class="fields">
+          <label>Product name <input name="name" required maxlength="100" placeholder="e.g. Classic Date Watch"></label>
+          <label>Category <input name="category" required maxlength="50" list="category-list" placeholder="Choose or enter a category"><datalist id="category-list"></datalist></label>
+          <label>Price (₦) <input name="price" type="number" required min="1" max="100000000" step="1" placeholder="45000"></label>
+          <label>Previous price (₦) <span class="optional">Optional</span><input name="previous" type="number" min="1" max="100000000" step="1"></label>
+          <label class="full">Description <span class="optional">Optional</span><textarea name="description" maxlength="1500" rows="3" placeholder="Describe the product for your customers"></textarea></label>
+        </div>
+        <div class="detail-block">
+          <h3>Colours <span class="optional">Optional</span></h3>
+          <p class="muted" id="colours-help">Select available colours. Customers choose one before adding this product to their cart.</p>
+          <div id="palette" class="palette" role="group" aria-label="Available colours" aria-describedby="colours-help"></div>
+          <div class="custom-colour"><input id="custom-colour" maxlength="30" placeholder="Custom colour name" aria-label="Custom colour name"><button type="button" class="quiet" id="add-colour">Add colour</button></div>
+        </div>
+        <div class="detail-block">
+          <label for="photo-input">Product photos</label>
+          <p class="muted" id="photos-help">Upload 1–4 JPG, PNG or WebP images. The first is the cover photo.</p>
+          <input id="photo-input" type="file" multiple accept="image/jpeg,image/png,image/webp" aria-describedby="photos-help">
+          <div id="photo-list" class="photo-list"></div>
+        </div>
+      </fieldset>
+      <p class="error" id="editor-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" class="quiet" data-close="editor">Cancel</button><button id="save-product" class="primary">Save product</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="delete-dialog" aria-labelledby="delete-title">
+    <form id="delete-form">
+      <div class="dialog-head"><div><p class="eyebrow">CATALOG / REMOVE</p><h2 id="delete-title">Delete product?</h2></div></div>
+      <p><strong id="delete-name"></strong> will be removed from the storefront. This can’t be undone.</p>
+      <p id="delete-error" class="error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" class="quiet" data-close="delete-dialog" autofocus>Cancel</button><button id="confirm-delete" class="primary">Delete product</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
